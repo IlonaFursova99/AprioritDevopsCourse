@@ -1,1 +1,2 @@
 # AprioritDevopsCourse
+Hi everyone!
