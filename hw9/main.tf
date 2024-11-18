@@ -89,6 +89,13 @@ resource "azurerm_network_security_group" "nsg" {
 
 }
 
+# Subnet Network Security Group Association
+resource "azurerm_subnet_network_security_group_association" "example" {
+  count                     = length(azurerm_subnet.example_subnet)
+  subnet_id                 = azurerm_subnet.example_subnet[count.index].id
+  network_security_group_id = azurerm_network_security_group.nsg.id
+}
+
 # Virtual Machines 1,2
 
 resource "azurerm_linux_virtual_machine" "vm" {
@@ -114,35 +121,6 @@ resource "azurerm_linux_virtual_machine" "vm" {
   #Path to public key
   admin_ssh_key {
     username   = "azureuser"
-    public_key = file("C:\\Users\\ilona\\OneDrive\\Рабочий стол\\Work\\DevOps course\\hw9 terraform\\sshkey.pub")  
+    public_key = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDrG7Pmk7ddQjCbcEOKJWNWKBdMhOcrp7T1oUohqrcyjOyWsLtK7+Cs5mpZtLlI7YmZXCZ0v6HbYcSO8hxfF2EITqr6/laEbfCfIPW+RUxG19szzUgoEtiupITyzxGSXBtIRbSYHpKJT1di3tCcOOgL+ecoafUbsySGXuHXHhpHU29mNHiE6GVtC/tRNfQhQ83rfIR6v+lYs+R4HiYpk89Fff7WtWUubOj8tmEhadho3fBw7+yBkswqeYV9fkXqKsFp5kX57/qI4ytt29r2M8VFz7g+PjWSOeSWqf1H1E5QsxDSyPYHlCHyIywq1adlEVrWXZUEH+eY6CTBGygmPVQD"  
   }
 }
-
-# Virtual Machine 2
-# resource "azurerm_linux_virtual_machine" "vm2" {
-#   name                = "vm2"
-#   resource_group_name = azurerm_resource_group.example_rg.name
-#   location            = azurerm_resource_group.example_rg.location
-#   size                = "Standard_B1s"
-#   admin_username      = "azureuser"
-#   network_interface_ids = [
-#     azurerm_network_interface.example_nic[count.index]
-#   ]
-
-#   os_disk {
-#     caching              = "ReadWrite"
-#     storage_account_type = "Standard_LRS"
-#   }
-
-#   source_image_reference {
-#     publisher = "Canonical"
-#     offer     = "0001-com-ubuntu-server-jammy"
-#     sku       = "22_04-lts"
-#     version   = "latest"
-#   }
-
-#   admin_ssh_key {
-#     username   = "azureuser"
-#     public_key = file("C:\\Users\\ilona\\OneDrive\\Рабочий стол\\Work\\DevOps course\\hw9 terraform\\id_rsa2.pub")  # Path to your Public Key 1
-#   }
-# }
