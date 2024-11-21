@@ -1,0 +1,15 @@
+---
+- name: Install Docker on Azure VM
+  hosts: staging
+  become: yes
+
+  tasks:
+  - name: Apt Update
+    apt:
+      update_cache: yes
+
+  - name: Install Docker
+    apt: name=docker.io state=present
+
+  - name: Show Docker is enabled
+    service: name=docker state=started enabled=yes
