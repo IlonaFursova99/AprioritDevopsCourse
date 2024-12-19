@@ -44,7 +44,8 @@ resource "azurerm_public_ip" "example_public_ip" {
   name                         = "example-public-ip"
   location                     = azurerm_resource_group.example_rg.location
   resource_group_name          = azurerm_resource_group.example_rg.name
-  allocation_method            = "Dynamic"
+  allocation_method            = "Static"          # Используем Static, а не Dynamic
+  sku                          = "Standard"        # Указываем SKU как Standard
   domain_name_label            = "examplepublicip"
 }
 
